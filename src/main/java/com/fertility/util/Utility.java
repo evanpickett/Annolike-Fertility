@@ -12,8 +12,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.*;
 
-import static com.fertility.Fertility.FERTILITY_CHUNK_SIZE;
-
 public class Utility {
 
     public static final ArrayList<String> crops = new ArrayList<String>();
@@ -99,8 +97,10 @@ public class Utility {
         int y = pos.getY();
         int z = pos.getZ();
 
-        int fertilityX = x / FERTILITY_CHUNK_SIZE;
-        int fertilityZ = z / FERTILITY_CHUNK_SIZE;
+        int fertilityChunkSize = CommonConfigHandler.chunkSize.get();
+
+        int fertilityX = x / fertilityChunkSize;
+        int fertilityZ = z / fertilityChunkSize;
 
         if (biomeName == null){
             biomeName = world.getBiome(new BlockPos(x, y, z)).value().getRegistryName().toString();
@@ -111,8 +111,8 @@ public class Utility {
         ArrayList<String> chooseCrops = new ArrayList<>();
         chooseCrops.addAll(crops);
 
-        int centerX = fertilityX * (FERTILITY_CHUNK_SIZE/2);
-        int centerZ = fertilityZ * (FERTILITY_CHUNK_SIZE/2);
+        int centerX = fertilityX * (fertilityChunkSize/2);
+        int centerZ = fertilityZ * (fertilityChunkSize/2);
 
         Set<String> dimensionCrops = getCropsForDimension(world.dimension().location().toString());
         Set<String> biomeCrops = getCropsForBiome(playerBiome);

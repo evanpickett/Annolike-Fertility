@@ -28,7 +28,6 @@ public class Fertility
 {
 
     public static final String MODID = "fertility";
-    public static final int FERTILITY_CHUNK_SIZE = CommonConfigHandler.chunkSize.get();
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LogUtils.getLogger();
     //SEE https://www.youtube.com/watch?v=BGzAbutqlyY&ab_channel=JorritTyberghein

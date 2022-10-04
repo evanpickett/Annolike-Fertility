@@ -1,7 +1,7 @@
 package com.fertility.client;
 
-import com.fertility.Fertility;
 import com.fertility.config.ClientConfigHandler;
+import com.fertility.config.CommonConfigHandler;
 import com.fertility.networking.PacketHandler;
 import com.fertility.networking.RequestPacket;
 import net.minecraft.client.Minecraft;
@@ -38,7 +38,6 @@ public class ClientEventHandler {
     private static Biome currentBiome = null;
     public static int lastMessage = 0;
     public static double timer = 0;
-
     public static ArrayList<ItemStack> renderStackList = new ArrayList<ItemStack>();
 
     @SubscribeEvent
@@ -49,11 +48,12 @@ public class ClientEventHandler {
             if (timer > 0)
                 timer -= event.renderTickTime;
             BlockPos pos = player.getOnPos();
+            int fertilityChunkSize = CommonConfigHandler.chunkSize.get();
             Biome b = world.getBiome(new BlockPos(pos.getX(), 128, pos.getZ())).value();
-            if (pos.getX()/ Fertility.FERTILITY_CHUNK_SIZE != currentX ||
-                    pos.getZ()/ Fertility.FERTILITY_CHUNK_SIZE != currentZ || !b.equals(currentBiome)){
-                currentX = pos.getX()/ Fertility.FERTILITY_CHUNK_SIZE;
-                currentZ = pos.getZ()/ Fertility.FERTILITY_CHUNK_SIZE;
+            if (pos.getX()/ fertilityChunkSize != currentX ||
+                    pos.getZ()/ fertilityChunkSize != currentZ || !b.equals(currentBiome)){
+                currentX = pos.getX()/ fertilityChunkSize;
+                currentZ = pos.getZ()/ fertilityChunkSize;
                 currentBiome = b;
                 //sending our biome doesn't actually matter! Server still checks events!
                 lastMessage++;
@@ -94,6 +94,9 @@ public class ClientEventHandler {
                             }
                         }
                     }
+                    if (hasRightItem)
+                        timer = ClientConfigHandler.autoHideDelay.get()*20;
+
                     shouldRender = hasRightItem;
                 }
             }
