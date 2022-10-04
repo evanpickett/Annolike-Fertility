@@ -80,9 +80,11 @@ public class ConfigHandler {
         cropsConsidered.add(getStringFromBlock(Blocks.CAVE_VINES));
         cropsConsidered.add(getStringFromBlock(Blocks.KELP));
         cropsConsidered.add(getStringFromBlock(Blocks.BAMBOO));
+        cropsConsidered.add(getStringFromBlock(Blocks.SWEET_BERRY_BUSH));
 
         crops = COMMON_BUILDER.comment("List of crops considered. Crops outside of this list are able to grow no matter where they are" +
-                        "some crops like CHORUS_FLOWER are automatically converted to just use CHORUS_PLANT")
+                        "some crops like CHORUS_FLOWER are automatically converted to just use CHORUS_PLANT" +
+                        "\nWARNING: Changing this will re-randomize each zone's fertility if you're already using this in an existing world!")
                 .define("CropsConsidered", cropsConsidered);
 
         List<String> dimensionWhitelistContainer = new ArrayList<>();
