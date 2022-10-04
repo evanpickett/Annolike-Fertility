@@ -4,7 +4,6 @@ import com.fertility.Fertility;
 import com.fertility.networking.PacketHandler;
 import com.fertility.networking.RequestPacket;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.core.BlockPos;
@@ -28,7 +27,6 @@ import java.util.ArrayList;
 public class ClientEventHandler {
 
     private static final Minecraft mc = Minecraft.getInstance();
-    public static final Font font = mc.font;
     public static final ItemRenderer itemRenderer = mc.getItemRenderer();
     private static int currentX = 0, currentZ = 0;
     private static Biome currentBiome = null;
@@ -58,22 +56,11 @@ public class ClientEventHandler {
                 currentX = pos.getX()/ Fertility.FERTILITY_CHUNK_SIZE;
                 currentZ = pos.getZ()/ Fertility.FERTILITY_CHUNK_SIZE;
                 currentBiome = b;
-                //Set<String> crops = Utility.getAllowedCropsInLocation(mc.level, pos);
-                //renderStackList.clear();
-                //for (String c : crops)
-                //    renderStackList.add(new ItemStack(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(c))));
-                Fertility.LOGGER.info("X: " + currentX + " Z: " + currentZ + " Current biome: " + currentBiome.getRegistryName().toString());
                 //sending our biome doesn't actually matter! Server still checks events!
                 lastMessage++;
                 lastMessage%=1000;
                 PacketHandler.channel.send(PacketDistributor.SERVER.noArg(), new RequestPacket(pos, currentBiome.getRegistryName().toString(), lastMessage));
             }
-            //PoseStack p = new PoseStack();
-            //ItemStack stack = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("minecraft","seeds")));
-
-            //itemRenderer.renderAndDecorateItem(stack, 16, 16);
-            //font.drawShadow(p, validCrops, 2, 2, 0xAAAAAA);
-            //RenderSystem.disableDepthTest();
         }
     }
     @SubscribeEvent

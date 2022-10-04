@@ -11,7 +11,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkRegistry;
@@ -51,9 +50,7 @@ public class PacketHandler {
         for (String e : out){
             result.append(e + "&");
         }
-        Fertility.LOGGER.debug("Server Received {}", msg.position);
         String answer = new String(result);
-        Fertility.LOGGER.debug("Server Sent {}", answer);
         channel.reply(new FertilityPacket(answer.length(), answer, false, position, msg.lastMessage), ctx.get());
     }
 
@@ -69,8 +66,6 @@ public class PacketHandler {
             String answer = new String(result);
             channel.reply(new FertilityPacket(answer.length(), answer, true, position, -1), ctx.get());
         }
-
-            //channel.reply(new EffectPacket(position, ParticleTypes.ANGRY_VILLAGER.getRegistryName().toString().length(), ParticleTypes.ANGRY_VILLAGER.getRegistryName().toString(), 5), ctx.get());
     }
 
     private static class Client{

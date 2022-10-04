@@ -3,15 +3,10 @@ package com.fertility.util;
 import com.fertility.Fertility;
 import com.fertility.config.ConfigHandler;
 import net.minecraft.core.BlockPos;
-import net.minecraft.data.worldgen.biome.OverworldBiomes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -113,8 +108,6 @@ public class Utility {
 
         Biome playerBiome = ForgeRegistries.BIOMES.getValue(new ResourceLocation(biomeName));
 
-        // seeds, beetroot seeds, pumpkin seeds, melon seeds, carrots, potatoes, sweet berries
-
         ArrayList<String> chooseCrops = new ArrayList<>();
         chooseCrops.addAll(crops);
 
@@ -130,7 +123,6 @@ public class Utility {
 
         biomeValue += centerX + centerZ;
 
-        //StringBuilder sb = new StringBuilder();
         int n = 0;
         int cropsToChoose = ConfigHandler.maxCrops.get();
         ArrayList<String> pendingChoose = new ArrayList<>();
@@ -139,7 +131,6 @@ public class Utility {
             n%=chooseCrops.size();
             String crop = chooseCrops.remove(n);
             pendingChoose.add(crop);
-            //sb.append(crop + ", ");
         }
 
         for (String crop : dimensionCrops){
@@ -154,7 +145,6 @@ public class Utility {
                 pendingChoose.add(crop);
             }
         }
-        //AnnolikeFertility.LOGGER.info("biome = " + biome + ", = " + sb + "( " + biomeValue + " )");
         return new HashSet<>(pendingChoose);
 
     }
