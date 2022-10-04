@@ -1,7 +1,8 @@
 package com.fertility;
 
 import com.fertility.client.ClientEventHandler;
-import com.fertility.config.ConfigHandler;
+import com.fertility.config.ClientConfigHandler;
+import com.fertility.config.CommonConfigHandler;
 import com.fertility.networking.PacketHandler;
 import com.mojang.logging.LogUtils;
 import net.minecraftforge.api.distmarker.Dist;
@@ -27,15 +28,15 @@ public class Fertility
 {
 
     public static final String MODID = "fertility";
-    public static final int FERTILITY_CHUNK_SIZE = ConfigHandler.chunkSize.get();
+    public static final int FERTILITY_CHUNK_SIZE = CommonConfigHandler.chunkSize.get();
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LogUtils.getLogger();
     //SEE https://www.youtube.com/watch?v=BGzAbutqlyY&ab_channel=JorritTyberghein
     public Fertility()
     {
 
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigHandler.COMMON_CONFIG);
-
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CommonConfigHandler.COMMON_CONFIG);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfigHandler.CLIENT_CONFIG);
         // Register the setup method for modloading
         IEventBus modbus = FMLJavaModLoadingContext.get().getModEventBus();
 

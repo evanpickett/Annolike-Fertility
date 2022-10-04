@@ -1,6 +1,7 @@
 package com.fertility.client;
 
 import com.fertility.Fertility;
+import com.fertility.config.ClientConfigHandler;
 import com.fertility.networking.PacketHandler;
 import com.fertility.networking.RequestPacket;
 import net.minecraft.client.Minecraft;
@@ -9,7 +10,10 @@ import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BoneMealItem;
+import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.biome.Biome;
@@ -22,6 +26,8 @@ import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 @OnlyIn(Dist.CLIENT)
 public class ClientEventHandler {
@@ -31,28 +37,21 @@ public class ClientEventHandler {
     private static int currentX = 0, currentZ = 0;
     private static Biome currentBiome = null;
     public static int lastMessage = 0;
-    private static boolean needsCheck = false;
-    private static float timer = 0;
+    public static double timer = 0;
 
     public static ArrayList<ItemStack> renderStackList = new ArrayList<ItemStack>();
 
     @SubscribeEvent
     public void onRenderTick(TickEvent.RenderTickEvent event) {
-        if (event.phase == TickEvent.Phase.END && mc.player != null && mc.level != null && !mc.options.hideGui && !mc.options.renderDebug /*&& (mc.screen == null || (ConfigHandler.CLIENT.displayWithChatOpen.get() && mc.screen instanceof ChatScreen))*/) {
+        if (event.phase == TickEvent.Phase.END && mc.player != null && mc.level != null && !mc.options.hideGui && !mc.options.renderDebug && mc.screen == null) {
             final Player player = mc.player;
             final ClientLevel world = mc.level;
+            if (timer > 0)
+                timer -= event.renderTickTime;
             BlockPos pos = player.getOnPos();
             Biome b = world.getBiome(new BlockPos(pos.getX(), 128, pos.getZ())).value();
-            /*timer+=event.renderTickTime;
-            if (timer > 5){
-                timer = 0;
-                needsCheck = true;
-            }*/
             if (pos.getX()/ Fertility.FERTILITY_CHUNK_SIZE != currentX ||
-                    pos.getZ()/ Fertility.FERTILITY_CHUNK_SIZE != currentZ ||
-                    needsCheck || !b.equals(currentBiome)){
-                needsCheck = false;
-                timer = 0;
+                    pos.getZ()/ Fertility.FERTILITY_CHUNK_SIZE != currentZ || !b.equals(currentBiome)){
                 currentX = pos.getX()/ Fertility.FERTILITY_CHUNK_SIZE;
                 currentZ = pos.getZ()/ Fertility.FERTILITY_CHUNK_SIZE;
                 currentBiome = b;
@@ -63,13 +62,46 @@ public class ClientEventHandler {
             }
         }
     }
+
+    private Set<ItemStack> getHolding(){
+        Set<ItemStack> result = new HashSet<>();
+        result.add(mc.player.getItemInHand(InteractionHand.MAIN_HAND));
+        result.add(mc.player.getItemInHand(InteractionHand.OFF_HAND));
+        return result;
+    }
+
     @SubscribeEvent
     public void onRenderOverlayTick(RenderGameOverlayEvent.Post event){
-        if (mc.player != null && mc.level != null && !mc.options.hideGui && !mc.options.renderDebug){
-            for (int i = 0; i < renderStackList.size(); i++){
-                itemRenderer.renderAndDecorateItem(renderStackList.get(i), 16 + i*16, 0);
+        if (mc.player != null && mc.level != null && !mc.options.hideGui && !mc.options.renderDebug && ClientConfigHandler.showOverlay.get()){
+            boolean shouldRender = true;
+            if (ClientConfigHandler.autoHide.get()){
+                if (timer <= 0){
+                    Set<ItemStack> heldItems = getHolding();
+                    boolean hasRightItem = false;
+                    if (ClientConfigHandler.showOnBonemeal.get()){
+                        for (ItemStack item : heldItems){
+                            if (item.getItem() instanceof BoneMealItem){
+                                hasRightItem = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (!hasRightItem && ClientConfigHandler.showOnHoe.get()){
+                        for (ItemStack item : heldItems){
+                            if (item.getItem() instanceof HoeItem){
+                                hasRightItem = true;
+                                break;
+                            }
+                        }
+                    }
+                    shouldRender = hasRightItem;
+                }
             }
-
+            if (shouldRender){
+                for (int i = 0; i < renderStackList.size(); i++){
+                    itemRenderer.renderAndDecorateItem(renderStackList.get(i), ClientConfigHandler.overlayX.get() + i*16, ClientConfigHandler.overlayY.get());
+                }
+            }
         }
     }
 

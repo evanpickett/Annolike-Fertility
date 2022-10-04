@@ -1,7 +1,7 @@
 package com.fertility.util;
 
 import com.fertility.Fertility;
-import com.fertility.config.ConfigHandler;
+import com.fertility.config.CommonConfigHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -20,8 +20,8 @@ public class Utility {
     private static final HashMap<String, Integer> biomeValues = new HashMap<>();
     static {
 
-        boolean ignoreSaplings = ConfigHandler.ignoreSaplings.get();
-        List<String> pendingCrops = ConfigHandler.crops.get();
+        boolean ignoreSaplings = CommonConfigHandler.ignoreSaplings.get();
+        List<String> pendingCrops = CommonConfigHandler.crops.get();
         for (String crop : pendingCrops){
             boolean valid = false;
             Block b = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(crop));
@@ -46,8 +46,8 @@ public class Utility {
 
     public static Set<String> getCropsForBiome(Biome biome){
         Set<String> set = new HashSet<>();
-        if (ConfigHandler.useBiomeWhitelist.get()){
-            for (String biomeString : ConfigHandler.biomeWhitelist.get()){
+        if (CommonConfigHandler.useBiomeWhitelist.get()){
+            for (String biomeString : CommonConfigHandler.biomeWhitelist.get()){
                 String[] splitter = biomeString.split("=");
                 String biomeName = splitter[0].trim();
                 String allowedCrops = splitter[1].trim();
@@ -69,8 +69,8 @@ public class Utility {
 
     public static Set<String> getCropsForDimension(String dimension){
         Set<String> set = new HashSet<>();
-        if (ConfigHandler.useDimensionWhitelist.get()){
-            for (String dimensionString : ConfigHandler.dimensionWhitelist.get()){
+        if (CommonConfigHandler.useDimensionWhitelist.get()){
+            for (String dimensionString : CommonConfigHandler.dimensionWhitelist.get()){
                 String[] splitter = dimensionString.split("=");
                 String dimensionName = splitter[0].trim();
                 String allowedCrops = splitter[1].trim();
@@ -124,7 +124,7 @@ public class Utility {
         biomeValue += centerX + centerZ;
 
         int n = 0;
-        int cropsToChoose = ConfigHandler.maxCrops.get();
+        int cropsToChoose = CommonConfigHandler.maxCrops.get();
         ArrayList<String> pendingChoose = new ArrayList<>();
         for (int i = 0; i < cropsToChoose; i++){
             n+=biomeValue;

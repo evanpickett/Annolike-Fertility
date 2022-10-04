@@ -3,6 +3,7 @@ package com.fertility.networking;
 import com.fertility.Fertility;
 import com.fertility.CropEvents;
 import com.fertility.client.ClientEventHandler;
+import com.fertility.config.ClientConfigHandler;
 import com.fertility.util.Utility;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -89,6 +90,7 @@ public class PacketHandler {
             }else{
                 if (msg.messageRespondedTo == ClientEventHandler.lastMessage) {
                     ClientEventHandler.renderStackList = list;
+                    ClientEventHandler.timer = ClientConfigHandler.autoHideDelay.get()*20;
                 }
             }
         }
