@@ -1,7 +1,7 @@
-package com.wildestupdate.datagen;
+package com.fertility.datagen;
 
-import com.wildestupdate.ItemAdditions;
-import com.wildestupdate.WildestUpdate;
+import com.fertility.ItemAdditions;
+import com.fertility.Fertility;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
@@ -13,7 +13,7 @@ public class ItemTagsGen extends ItemTagsProvider {
 
 
     public ItemTagsGen(DataGenerator generator, BlockTagsProvider blockProvider, @Nullable ExistingFileHelper existingFileHelper) {
-        super(generator, blockProvider, WildestUpdate.MODID, existingFileHelper);
+        super(generator, blockProvider, Fertility.MODID, existingFileHelper);
     }
 
     @Override

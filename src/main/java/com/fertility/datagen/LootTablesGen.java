@@ -1,8 +1,7 @@
-package com.wildestupdate.datagen;
+package com.fertility.datagen;
 
-import com.wildestupdate.BlockAdditions;
+import com.fertility.BlockAdditions;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;

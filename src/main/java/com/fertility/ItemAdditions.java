@@ -1,6 +1,5 @@
-package com.wildestupdate;
+package com.fertility;
 
-import com.wildestupdate.blocks.Mud;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -9,8 +8,8 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-import static com.wildestupdate.WildestUpdate.LOGGER;
-import static com.wildestupdate.WildestUpdate.MODID;
+import static com.fertility.Fertility.LOGGER;
+import static com.fertility.Fertility.MODID;
 
 public class ItemAdditions {
 

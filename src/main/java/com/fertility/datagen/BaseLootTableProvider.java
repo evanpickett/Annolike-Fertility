@@ -1,8 +1,8 @@
-package com.wildestupdate.datagen;
+package com.fertility.datagen;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.wildestupdate.WildestUpdate;
+import com.fertility.Fertility;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.HashCache;
@@ -30,7 +30,7 @@ import java.util.Map;
 
 public abstract class BaseLootTableProvider extends LootTableProvider {
 
-    private static final Logger LOGGER = WildestUpdate.LOGGER;
+    private static final Logger LOGGER = Fertility.LOGGER;
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
     protected final Map<Block, LootTable.Builder> lootTables = new HashMap<>();

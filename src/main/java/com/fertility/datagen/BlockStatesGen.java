@@ -1,7 +1,7 @@
-package com.wildestupdate.datagen;
+package com.fertility.datagen;
 
-import com.wildestupdate.BlockAdditions;
-import com.wildestupdate.WildestUpdate;
+import com.fertility.BlockAdditions;
+import com.fertility.Fertility;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -9,7 +9,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 public class BlockStatesGen extends BlockStateProvider {
 
     public BlockStatesGen(DataGenerator gen, ExistingFileHelper exFileHelper) {
-        super(gen, WildestUpdate.MODID, exFileHelper);
+        super(gen, Fertility.MODID, exFileHelper);
     }
 
     @Override

@@ -1,18 +1,17 @@
-package com.wildestupdate.datagen;
+package com.fertility.datagen;
 
-import com.wildestupdate.BlockAdditions;
-import com.wildestupdate.WildestUpdate;
+import com.fertility.Fertility;
+import com.fertility.BlockAdditions;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.tags.BlockTags;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
 
 public class BlockTagsGen extends BlockTagsProvider {
 
     public BlockTagsGen(DataGenerator generator, @Nullable ExistingFileHelper existingFileHelper) {
-        super(generator, WildestUpdate.MODID, existingFileHelper);
+        super(generator, Fertility.MODID, existingFileHelper);
     }
 
     @Override

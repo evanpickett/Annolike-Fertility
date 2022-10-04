@@ -1,7 +1,7 @@
-package com.wildestupdate.datagen;
+package com.fertility.datagen;
 
-import com.wildestupdate.ItemAdditions;
-import com.wildestupdate.WildestUpdate;
+import com.fertility.Fertility;
+import com.fertility.ItemAdditions;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -9,7 +9,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 public class ItemModelsGen extends ItemModelProvider {
 
     public ItemModelsGen(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-        super(generator, WildestUpdate.MODID, existingFileHelper);
+        super(generator, Fertility.MODID, existingFileHelper);
     }
 
     @Override

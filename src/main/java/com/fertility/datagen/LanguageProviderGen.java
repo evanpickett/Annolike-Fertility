@@ -1,14 +1,14 @@
-package com.wildestupdate.datagen;
+package com.fertility.datagen;
 
-import com.wildestupdate.BlockAdditions;
-import com.wildestupdate.WildestUpdate;
+import com.fertility.Fertility;
+import com.fertility.BlockAdditions;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.LanguageProvider;
 
 public class LanguageProviderGen extends LanguageProvider {
 
     public LanguageProviderGen(DataGenerator gen, String locale) {
-        super(gen, WildestUpdate.MODID, locale);
+        super(gen, Fertility.MODID, locale);
     }
 
     @Override

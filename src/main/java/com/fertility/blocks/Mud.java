@@ -1,4 +1,4 @@
-package com.wildestupdate.blocks;
+package com.fertility.blocks;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;

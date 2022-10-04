@@ -1,22 +1,16 @@
-package com.wildestupdate;
+package com.fertility;
 
-import com.wildestupdate.blocks.Mud;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
+import com.fertility.blocks.Mud;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-import static com.wildestupdate.WildestUpdate.MODID;
-import static com.wildestupdate.WildestUpdate.LOGGER;
+import static com.fertility.Fertility.MODID;
+import static com.fertility.Fertility.LOGGER;
 public class BlockAdditions {
-
+    //NOTE: MUD IS TEMPORARY!!!
     private static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
 
 

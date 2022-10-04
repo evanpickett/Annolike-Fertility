@@ -1,4 +1,4 @@
-package com.wildestupdate.datagen;
+package com.fertility.datagen;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;

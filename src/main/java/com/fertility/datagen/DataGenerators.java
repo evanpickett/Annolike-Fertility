@@ -1,8 +1,6 @@
-package com.wildestupdate.datagen;
+package com.fertility.datagen;
 
 import net.minecraft.data.DataGenerator;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
