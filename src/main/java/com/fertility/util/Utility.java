@@ -14,7 +14,7 @@ import java.util.*;
 
 public class Utility {
 
-    public static final ArrayList<String> crops = new ArrayList<String>();
+    public static final ArrayList<String> crops = new ArrayList<>();
     private static final HashMap<String, Integer> biomeValues = new HashMap<>();
     static {
 
@@ -24,20 +24,17 @@ public class Utility {
             boolean valid = false;
             Block b = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(crop));
             if (b != null){
-                valid = true;
-                if (ignoreSaplings && b instanceof SaplingBlock)
-                    valid = false;
+                valid = !ignoreSaplings || !(b instanceof SaplingBlock);
             }
             if (valid)
                 crops.add(crop);
         }
 
-        for (Iterator<Biome> iterator = ForgeRegistries.BIOMES.iterator(); iterator.hasNext();){
-            Biome biome = iterator.next();
+        for (Biome biome : ForgeRegistries.BIOMES) {
             String name = biome.getRegistryName().toString();
             int biomeValue = 0;
             for (char c : name.toCharArray())
-                biomeValue+=c;
+                biomeValue += c;
             biomeValues.put(name, biomeValue);
         }
     }
