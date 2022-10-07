@@ -36,6 +36,7 @@ public class CropEvents {
         sameTypeConverter.put(Blocks.WEEPING_VINES_PLANT, Blocks.WEEPING_VINES);
         sameTypeConverter.put(Blocks.CAVE_VINES_PLANT, Blocks.CAVE_VINES);
         sameTypeConverter.put(Blocks.BAMBOO_SAPLING, Blocks.BAMBOO);
+        sameTypeConverter.put(Blocks.KELP_PLANT, Blocks.KELP);
     }
 
     public static void addToCache(BlockPos point, Set<String> crops){
@@ -70,7 +71,8 @@ public class CropEvents {
         if (world.isEmptyBlock(pos)) {
             Block underneath = world.getBlockState(pos.below()).getBlock();
             if (underneath == Blocks.CACTUS || underneath == Blocks.CHORUS_FLOWER ||
-                    underneath == Blocks.WEEPING_VINES || underneath == Blocks.BAMBOO_SAPLING || underneath == Blocks.BAMBOO) {
+                    underneath == Blocks.WEEPING_VINES || underneath == Blocks.BAMBOO_SAPLING || underneath == Blocks.BAMBOO ||
+                    underneath == Blocks.KELP) {
                 pos = pos.below();
             } else {
                 Block above = world.getBlockState(pos.above()).getBlock();
