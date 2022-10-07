@@ -1,8 +1,13 @@
 # Fertility
 
-![Downloads](https://cf.way2muchnoise.eu/full_684970_downloads.svg) ![Versions](https://cf.way2muchnoise.eu/versions/684970.svg)
+![Downloads](https://cf.way2muchnoise.eu/full_684970_downloads.svg) ![Versions](https://cf.way2muchnoise.eu/versions/684970.svg) ![Availability](https://img.shields.io/badge/Available%20on-Forge-red)
 
 Mod link: https://www.curseforge.com/minecraft/mc-mods/fertility
+
+Fertility is a Minecraft mod which divides up your world into different configurable sectors with different crops that can grow there. 
+
+![FertilityGif](images/showbonemeal.gif)
+![FertilityDisplay](images/fertilityexplanation.png)
 
 Feel free to contribute!
 
