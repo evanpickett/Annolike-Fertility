@@ -1,5 +1,7 @@
 # Fertility
 
+![Downloads](https://cf.way2muchnoise.eu/full_684970_downloads.svg) ![Versions](https://cf.way2muchnoise.eu/versions/684970.svg)
+
 Mod link: https://www.curseforge.com/minecraft/mc-mods/fertility
 
 Feel free to contribute!
