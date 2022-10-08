@@ -18,7 +18,7 @@ import java.util.List;
 public class CommonConfigHandler {
 
     public static IntValue maxCrops;
-    public static IntValue chunkSize;
+    public static IntValue zoneSizeInChunks;
     public static BooleanValue useDimensionWhitelist;
     public static BooleanValue useBiomeWhitelist;
     public static BooleanValue ignoreSaplings;
@@ -45,11 +45,14 @@ public class CommonConfigHandler {
     private static void makeConfig() {
 
         biomeMapper.put("Beaches", new ResourceKey[]{Biomes.BEACH});
-        biomeMapper.put("Oceans", new ResourceKey[]{Biomes.OCEAN, Biomes.COLD_OCEAN, Biomes.DEEP_COLD_OCEAN, Biomes.DEEP_OCEAN, Biomes.DEEP_FROZEN_OCEAN, Biomes.DEEP_LUKEWARM_OCEAN, Biomes.FROZEN_OCEAN, Biomes.LUKEWARM_OCEAN, Biomes.WARM_OCEAN});
+        biomeMapper.put("Oceans", new ResourceKey[]{Biomes.OCEAN, Biomes.COLD_OCEAN, Biomes.DEEP_COLD_OCEAN, Biomes.DEEP_OCEAN,
+                Biomes.DEEP_FROZEN_OCEAN, Biomes.DEEP_LUKEWARM_OCEAN, Biomes.FROZEN_OCEAN, Biomes.LUKEWARM_OCEAN,
+                Biomes.WARM_OCEAN});
         biomeMapper.put("Deserts", new ResourceKey[]{Biomes.DESERT, Biomes.BADLANDS});
+        biomeMapper.put("Jungles", new ResourceKey[]{Biomes.JUNGLE, Biomes.SPARSE_JUNGLE, Biomes.BAMBOO_JUNGLE});
         COMMON_BUILDER.comment("World Settings").push(Fertility.MODID);
         maxCrops = COMMON_BUILDER.comment("Number of crops that are \"Fertile\" in a given \"Fertility Chunk\"").defineInRange("NumberOfCropsInZone", 5, 1, Integer.MAX_VALUE);
-        chunkSize = COMMON_BUILDER.comment("How large of a distance between \"Fertile Chunks\" aka, how big are the zones where certain crops are fertile").defineInRange("FertileChunkSize", 500, 16, Integer.MAX_VALUE);
+        zoneSizeInChunks = COMMON_BUILDER.comment("How many chunks is a \"Fertile Chunk\" aka, how big are the zones where certain crops are fertile (x16 = #blocks)").defineInRange("FertileChunkSizeInChunks", 31, 1, Integer.MAX_VALUE);
         useDimensionWhitelist = COMMON_BUILDER.comment("Use dimension whitelist").define("UseDimensionWhitelist", true);
         useBiomeWhitelist = COMMON_BUILDER.comment("Use biome whitelist").define("UseBiomeWhitelist", true);
         ignoreSaplings = COMMON_BUILDER.comment("Ignore saplings").define("IgnoreSaplings", true);
@@ -127,6 +130,12 @@ public class CommonConfigHandler {
             addKeyValueToList(biomeCategoryWhitelistContainer, k.location().toString(),
                     String.join(",", new String[]{
                             getStringFromBlock(Blocks.CACTUS),
+                    }));
+        }
+        for (ResourceKey<Biome> k : biomeMapper.get("Jungles")){
+            addKeyValueToList(biomeCategoryWhitelistContainer, k.location().toString(),
+                    String.join(",", new String[]{
+                            getStringFromBlock(Blocks.COCOA),
                     }));
         }
 

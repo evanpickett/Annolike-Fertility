@@ -60,7 +60,7 @@ public class Fertility
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new CropEvents());
-
+        MinecraftForge.EVENT_BUS.register(new ChunkEvents());
     }
 
     private void setup(final FMLCommonSetupEvent event)

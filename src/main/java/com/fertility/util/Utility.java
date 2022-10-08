@@ -1,13 +1,16 @@
 package com.fertility.util;
 
+import com.fertility.ChunkEvents;
 import com.fertility.Fertility;
 import com.fertility.config.CommonConfigHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SaplingBlock;
+import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.*;
@@ -15,27 +18,20 @@ import java.util.*;
 public class Utility {
 
     public static final ArrayList<String> crops = new ArrayList<>();
-    private static final HashMap<String, Integer> biomeValues = new HashMap<>();
     static {
-
         boolean ignoreSaplings = CommonConfigHandler.ignoreSaplings.get();
         List<String> pendingCrops = CommonConfigHandler.crops.get();
         for (String crop : pendingCrops){
             boolean valid = false;
-            Block b = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(crop));
-            if (b != null){
+            if (ForgeRegistries.BLOCKS.containsKey(new ResourceLocation(crop))){
+                Block b = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(crop));
                 valid = !ignoreSaplings || !(b instanceof SaplingBlock);
+            }else{
+                Fertility.LOGGER.warn("Invalid crop block trying to be registered! {}", crop);
             }
+
             if (valid)
                 crops.add(crop);
-        }
-
-        for (Biome biome : ForgeRegistries.BIOMES) {
-            String name = biome.getRegistryName().toString();
-            int biomeValue = 0;
-            for (char c : name.toCharArray())
-                biomeValue += c;
-            biomeValues.put(name, biomeValue);
         }
     }
 
@@ -85,6 +81,43 @@ public class Utility {
         return set;
     }
 
+    public static List<String> getBaseAllowedCropsInLocation(ServerLevel world, ChunkAccess chunk){
+        boolean writeMode = false;
+        if (ChunkEvents.chunkDataMap.get(chunk) != null){
+            if (ChunkEvents.chunkDataMap.get(chunk).unraveledData.size() == CommonConfigHandler.maxCrops.get())
+                return ChunkEvents.chunkDataMap.get(chunk).unraveledData;
+            else
+                writeMode = true;
+        }
+        int fertilityChunkSize = CommonConfigHandler.zoneSizeInChunks.get();
+        ChunkPos chunkPos = chunk.getPos();
+        int fertilityX = chunkPos.x / fertilityChunkSize;
+        int fertilityZ = chunkPos.z / fertilityChunkSize;
+
+        List<String> chooseCrops = new ArrayList<>(crops);
+
+        long randSeed = world.getSeed() + fertilityX + fertilityZ + fertilityX%3 + fertilityZ%5 + fertilityX/2 + fertilityZ*3L;
+
+        Random chunkRand = new Random(randSeed);
+
+        int cropsToChoose = CommonConfigHandler.maxCrops.get();
+        List<String> chooseList = new ArrayList<>();
+        for (int i = 0; i < cropsToChoose; i++){
+            int r = chunkRand.nextInt(chooseCrops.size());
+            String crop = chooseCrops.remove(r);
+            chooseList.add(crop);
+        }
+        if (writeMode){
+            ChunkEvents.chunkDataMap.get(chunk).writeData(collectionToString(chooseList));
+        }
+        return chooseList;
+    }
+
+    public static List<String> getBaseAllowedCropsInLocation(ServerLevel world, BlockPos pos){
+        ChunkAccess chunk = world.getChunk(pos);
+        return getBaseAllowedCropsInLocation(world, chunk);
+    }
+
     public static Set<String> getAllowedCropsInLocation(ServerLevel world, BlockPos pos){
         return getAllowedCropsInLocation(world, pos, null);
     }
@@ -94,42 +127,16 @@ public class Utility {
         int y = pos.getY();
         int z = pos.getZ();
 
-        int fertilityChunkSize = CommonConfigHandler.chunkSize.get();
-
-        int fertilityX = x / fertilityChunkSize;
-        int fertilityZ = z / fertilityChunkSize;
-
         if (biomeName == null){
             biomeName = world.getBiome(new BlockPos(x, y, z)).value().getRegistryName().toString();
         }
 
         Biome playerBiome = ForgeRegistries.BIOMES.getValue(new ResourceLocation(biomeName));
 
-        ArrayList<String> chooseCrops = new ArrayList<>();
-        chooseCrops.addAll(crops);
-
-        int centerX = fertilityX * (fertilityChunkSize/2);
-        int centerZ = fertilityZ * (fertilityChunkSize/2);
-
         Set<String> dimensionCrops = getCropsForDimension(world.dimension().location().toString());
         Set<String> biomeCrops = getCropsForBiome(playerBiome);
 
-        String centerBiome = world.getBiome(new BlockPos(centerX, y, centerZ)).value().getRegistryName().toString();
-
-        int biomeValue = biomeValues.get(centerBiome);
-
-        biomeValue += centerX + centerZ;
-
-        int n = 0;
-        int cropsToChoose = CommonConfigHandler.maxCrops.get();
-        ArrayList<String> pendingChoose = new ArrayList<>();
-        for (int i = 0; i < cropsToChoose; i++){
-            n+=biomeValue;
-            n%=chooseCrops.size();
-            String crop = chooseCrops.remove(n);
-            pendingChoose.add(crop);
-        }
-
+        List<String> pendingChoose = getBaseAllowedCropsInLocation(world, pos);
         for (String crop : dimensionCrops){
             if (!pendingChoose.contains(crop)){
                 pendingChoose.remove(0);
@@ -143,7 +150,19 @@ public class Utility {
             }
         }
         return new HashSet<>(pendingChoose);
+    }
 
+    public static String collectionToString(Collection<String> input){
+        StringBuilder result = new StringBuilder();
+        int i = 0;
+        for (Iterator<String> it = input.iterator(); it.hasNext(); i++){
+            String s = it.next();
+            result.append(s);
+            if (i < input.size()-1){
+                result.append("&");
+            }
+        }
+        return new String(result);
     }
 
 }

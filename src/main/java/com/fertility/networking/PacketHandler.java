@@ -84,6 +84,7 @@ public class PacketHandler {
                     set.add(s);
                 }
             }
+            //Fertility.LOGGER.info("chunk set = {}", set);
             if (msg.isBonemeal){
                 CropEvents.addToCache(msg.position, set);
                 ClientEventHandler.renderParticlesOnBlock(player.level, msg.position, ParticleTypes.ANGRY_VILLAGER.getRegistryName().toString(), 5);

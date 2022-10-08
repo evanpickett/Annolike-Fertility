@@ -15,8 +15,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BoneMealItem;
 import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -48,12 +50,14 @@ public class ClientEventHandler {
             if (timer > 0)
                 timer -= event.renderTickTime;
             BlockPos pos = player.getOnPos();
-            int fertilityChunkSize = CommonConfigHandler.chunkSize.get();
+            int fertilityChunkSize = CommonConfigHandler.zoneSizeInChunks.get();
+            ChunkAccess access = world.getChunk(pos);
+            ChunkPos chunkPos = access.getPos();
             Biome b = world.getBiome(new BlockPos(pos.getX(), 128, pos.getZ())).value();
-            if (pos.getX()/ fertilityChunkSize != currentX ||
-                    pos.getZ()/ fertilityChunkSize != currentZ || !b.equals(currentBiome)){
-                currentX = pos.getX()/ fertilityChunkSize;
-                currentZ = pos.getZ()/ fertilityChunkSize;
+            if (chunkPos.x/ fertilityChunkSize != currentX ||
+                    chunkPos.z/ fertilityChunkSize != currentZ || !b.equals(currentBiome)){
+                currentX = chunkPos.x/ fertilityChunkSize;
+                currentZ = chunkPos.z/ fertilityChunkSize;
                 currentBiome = b;
                 //sending our biome doesn't actually matter! Server still checks events!
                 lastMessage++;
@@ -65,8 +69,10 @@ public class ClientEventHandler {
 
     private Set<ItemStack> getHolding(){
         Set<ItemStack> result = new HashSet<>();
-        result.add(mc.player.getItemInHand(InteractionHand.MAIN_HAND));
-        result.add(mc.player.getItemInHand(InteractionHand.OFF_HAND));
+        if (mc.player != null) {
+            result.add(mc.player.getItemInHand(InteractionHand.MAIN_HAND));
+            result.add(mc.player.getItemInHand(InteractionHand.OFF_HAND));
+        }
         return result;
     }
 
