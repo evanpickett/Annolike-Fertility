@@ -37,7 +37,7 @@ public class Utility {
 
     public static Set<String> getCropsForBiome(Biome biome){
         Set<String> set = new HashSet<>();
-        if (CommonConfigHandler.useBiomeWhitelist.get()){
+        if (biome != null && CommonConfigHandler.useBiomeWhitelist.get()){
             for (String biomeString : CommonConfigHandler.biomeWhitelist.get()){
                 String[] splitter = biomeString.split("=");
                 String biomeName = splitter[0].trim();
