@@ -62,7 +62,8 @@ public class ClientEventHandler {
                 //sending our biome doesn't actually matter! Server still checks events!
                 lastMessage++;
                 lastMessage%=1000;
-                PacketHandler.channel.send(PacketDistributor.SERVER.noArg(), new RequestPacket(pos, currentBiome.getRegistryName().toString(), lastMessage));
+                if (currentBiome.getRegistryName() != null)
+                    PacketHandler.channel.send(PacketDistributor.SERVER.noArg(), new RequestPacket(pos, currentBiome.getRegistryName().toString(), lastMessage));
             }
         }
     }
