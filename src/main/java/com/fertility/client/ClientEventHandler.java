@@ -1,5 +1,6 @@
 package com.fertility.client;
 
+import com.fertility.Fertility;
 import com.fertility.config.ClientConfigHandler;
 import com.fertility.config.CommonConfigHandler;
 import com.fertility.networking.PacketHandler;

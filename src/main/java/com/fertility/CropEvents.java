@@ -2,6 +2,7 @@ package com.fertility;
 
 import com.fertility.client.ClientEventHandler;
 import com.fertility.networking.BonemealPacket;
+import com.fertility.networking.EffectPacket;
 import com.fertility.networking.PacketHandler;
 import com.fertility.util.Utility;
 import com.fertility.util.Vector2;
@@ -91,7 +92,8 @@ public class CropEvents {
         if (!canGrowCrop && Utility.crops.contains(b.getRegistryName().toString())) {
             event.setResult(Event.Result.DENY);
             world.destroyBlock(pos, true);
-            ClientEventHandler.renderParticlesOnBlock(world, pos, ParticleTypes.ANGRY_VILLAGER.getRegistryName().toString(), 5);
+            PacketHandler.channel.send(PacketDistributor.NEAR.with(PacketDistributor.TargetPoint.p(pos.getX(),pos.getY(),pos.getZ(), 64, world.dimension())), new EffectPacket(pos, ParticleTypes.ANGRY_VILLAGER.getRegistryName().toString(), 5));
+            //ClientEventHandler.renderParticlesOnBlock(world, pos, ParticleTypes.ANGRY_VILLAGER.getRegistryName().toString(), 5);
         }
     }
 
@@ -114,7 +116,8 @@ public class CropEvents {
         if (!canGrowTree && Utility.crops.contains(b.getRegistryName().toString())) {
             event.setResult(Event.Result.DENY);
             world.destroyBlock(pos, true);
-            ClientEventHandler.renderParticlesOnBlock(world, pos, ParticleTypes.ANGRY_VILLAGER.getRegistryName().toString(), 5);
+            PacketHandler.channel.send(PacketDistributor.NEAR.with(PacketDistributor.TargetPoint.p(pos.getX(),pos.getY(),pos.getZ(), 64, world.dimension())), new EffectPacket(pos, ParticleTypes.ANGRY_VILLAGER.getRegistryName().toString(), 5));
+            //ClientEventHandler.renderParticlesOnBlock(world, pos, ParticleTypes.ANGRY_VILLAGER.getRegistryName().toString(), 5);
         }
     }
 
